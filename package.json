@@ -1,0 +1,19 @@
+{
+  "name": "badeel-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/asotade/badeel-api.git"
+  },
+  "author": "Abdessamii SALHI <salhi.abdessamii@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/asotade/badeel-api/issues"
+  },
+  "homepage": "https://github.com/asotade/badeel-api#readme"
+}
