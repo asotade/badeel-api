@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "docker:run": "docker build -t your-image-name . && docker run -p 3000:3000 -d your-image-name",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -15,5 +18,20 @@
   "bugs": {
     "url": "https://github.com/asotade/badeel-api/issues"
   },
-  "homepage": "https://github.com/asotade/badeel-api#readme"
+  "homepage": "https://github.com/asotade/badeel-api#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^7.6.3",
+    "mongoose-autopopulate": "^1.1.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.52.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.29.0",
+    "husky": "^8.0.0",
+    "nodemon": "^3.0.1"
+  }
 }
