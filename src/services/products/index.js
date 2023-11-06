@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const { Products } = require('../../models');
 const { isObjectId } = require('../../utils/helper');
 
@@ -9,6 +10,13 @@ const findAll = async (filter = {}) => {
     console.log({ err });
     return { code: -1, result: err.message };
   }
+};
+
+const findByCountryAndProduct = async (product, country) => {
+  const filter = {
+    replacementFor: new mongoose.Types.ObjectId(product), countriesAvailable: country.toUpperCase(), excluded: false,
+  };
+  return findAll(filter);
 };
 
 const findOne = async (id) => {
@@ -28,20 +36,19 @@ const createOne = async (data) => {
   let result = {};
   try {
     const { recommendations, ...product } = data;
+    result = await Products.create(product);
+
+    console.log({ result });
     if (recommendations && Array.isArray(recommendations)) {
-      // const createdProducts = await Products.create(recommendations);
-      product.recommendations = await Promise.all(recommendations.map(async (p) => {
+      const { _id: replacementFor, category } = result;
+      result.recommendations = await Promise.all(recommendations.map(async (p) => {
         const { _id: id } = p;
         if (id && isObjectId(id)) return id;
-
-        const newProduct = await Products.create(p);
+        const newProduct = await Products.create({ ...p, replacementFor, category });
         return newProduct._id;
       }));
+      await result.save();
     }
-
-    console.log({ products: product.recommendations });
-
-    result = await Products.create(product);
   } catch (err) {
     console.log({ err });
     code = -1;
@@ -89,6 +96,7 @@ const unassignProduct = async (id, recommended) => {
 };
 
 module.exports = {
+  findByCountryAndProduct,
   findAll,
   findOne,
   createOne,

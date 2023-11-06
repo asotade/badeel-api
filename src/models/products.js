@@ -31,6 +31,10 @@ const productsSchema = new mongoose.Schema(
       ],
       default: [],
     },
+    replacementFor: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Product',
+    },
   },
   {
     timestamps: true,
@@ -38,6 +42,7 @@ const productsSchema = new mongoose.Schema(
 );
 
 productsSchema.plugin(require('mongoose-autopopulate'));
+
 const Products = mongoose.model('Product', productsSchema);
 
 module.exports = Products;

@@ -1,5 +1,7 @@
 const isEmptyObj = (obj) => obj && (Object.keys(obj).length === 0);
 
+const FORBIDDEN_COUNTRIES = ['IL'];
+
 const stringifyParams = (params, parentKey = '') => {
   const keyValuePairs = [];
   Object.entries(params).forEach(([key, value]) => {
@@ -58,12 +60,28 @@ const makeFilters = (query) => {
   return filter;
 };
 
+const fetchCountries = async () => {
+  const response = await fetch('https://restcountries.com/v3.1/all');
+  if (response.status !== 200) return [];
+  const result = await response.json();
+
+  const countries = result
+    .filter((c) => !FORBIDDEN_COUNTRIES.includes(c.cca2))
+    .map((c) => ({
+      code: c.cca2,
+      name: c.name.common,
+      flag: c.flag,
+    }));
+  return countries;
+};
+
 const isArrayAllIncluded = (array1, array2) => array2.every((value) => array1.includes(value));
 
 const isArrayAnyIncluded = (array1, array2) => array2.some((value) => array1.includes(value));
 
 module.exports = {
   isEmptyObj,
+  fetchCountries,
   stringifyParams,
   cleanAndCamelizeQuery,
   makeFilters,

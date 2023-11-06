@@ -16,6 +16,12 @@ router.get('/:id', async (req, res) => {
   return res.status(200).json({ code: 0, result });
 });
 
+router.get('/:id/country/:country', async (req, res) => {
+  const { id, country } = req.params;
+  const { result } = await productService.findByCountryAndProduct(id, country);
+  return res.status(200).json({ code: 0, result });
+});
+
 router.post('/', async (req, res) => {
   const { body } = req;
   try {
